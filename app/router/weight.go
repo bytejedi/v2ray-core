@@ -4,6 +4,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 type weightScaler func(value, weight float64) float64
@@ -23,13 +24,17 @@ func NewWeightManager(s []*StrategyWeight, defaultWeight float64, scaler weightS
 // WeightManager manages weights for specific settings
 type WeightManager struct {
 	settings      []*StrategyWeight
-	cache         map[string]float64
 	scaler        weightScaler
 	defaultWeight float64
+	// mu protects cache
+	mu    sync.Mutex
+	cache map[string]float64
 }
 
 // Get gets the weight of specified tag
 func (s *WeightManager) Get(tag string) float64 {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	weight, ok := s.cache[tag]
 	if ok {
 		return weight
