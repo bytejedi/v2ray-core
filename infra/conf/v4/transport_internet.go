@@ -11,7 +11,6 @@ import (
 	"github.com/v2fly/v2ray-core/v5/infra/conf/cfgcommon/socketcfg"
 	"github.com/v2fly/v2ray-core/v5/infra/conf/cfgcommon/tlscfg"
 	"github.com/v2fly/v2ray-core/v5/transport/internet"
-	"github.com/v2fly/v2ray-core/v5/transport/internet/domainsocket"
 	httpheader "github.com/v2fly/v2ray-core/v5/transport/internet/headers/http"
 	"github.com/v2fly/v2ray-core/v5/transport/internet/http"
 	"github.com/v2fly/v2ray-core/v5/transport/internet/tcp"
@@ -117,21 +116,6 @@ func (c *HTTPConfig) Build() (proto.Message, error) {
 	return config, nil
 }
 
-type DomainSocketConfig struct {
-	Path     string `json:"path"`
-	Abstract bool   `json:"abstract"`
-	Padding  bool   `json:"padding"`
-}
-
-// Build implements Buildable.
-func (c *DomainSocketConfig) Build() (proto.Message, error) {
-	return &domainsocket.Config{
-		Path:     c.Path,
-		Abstract: c.Abstract,
-		Padding:  c.Padding,
-	}, nil
-}
-
 type TransportProtocol string
 
 // Build implements Buildable.
@@ -157,7 +141,6 @@ type StreamConfig struct {
 	TCPSettings    *TCPConfig              `json:"tcpSettings"`
 	WSSettings     *WebSocketConfig        `json:"wsSettings"`
 	HTTPSettings   *HTTPConfig             `json:"httpSettings"`
-	DSSettings     *DomainSocketConfig     `json:"dsSettings"`
 	SocketSettings *socketcfg.SocketConfig `json:"sockopt"`
 }
 
@@ -214,16 +197,6 @@ func (c *StreamConfig) Build() (*internet.StreamConfig, error) {
 		config.TransportSettings = append(config.TransportSettings, &internet.TransportConfig{
 			ProtocolName: "http",
 			Settings:     serial.ToTypedMessage(ts),
-		})
-	}
-	if c.DSSettings != nil {
-		ds, err := c.DSSettings.Build()
-		if err != nil {
-			return nil, newError("Failed to build DomainSocket config.").Base(err)
-		}
-		config.TransportSettings = append(config.TransportSettings, &internet.TransportConfig{
-			ProtocolName: "domainsocket",
-			Settings:     serial.ToTypedMessage(ds),
 		})
 	}
 	if c.SocketSettings != nil {

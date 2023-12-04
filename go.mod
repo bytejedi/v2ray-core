@@ -32,7 +32,6 @@ require (
 	google.golang.org/grpc v1.53.0
 	google.golang.org/protobuf v1.31.0
 	gopkg.in/yaml.v3 v3.0.1
-	h12.io/socks v1.0.3
 )
 
 require (

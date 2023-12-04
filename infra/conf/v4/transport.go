@@ -7,10 +7,9 @@ import (
 )
 
 type TransportConfig struct {
-	TCPConfig  *TCPConfig          `json:"tcpSettings"`
-	WSConfig   *WebSocketConfig    `json:"wsSettings"`
-	HTTPConfig *HTTPConfig         `json:"httpSettings"`
-	DSConfig   *DomainSocketConfig `json:"dsSettings"`
+	TCPConfig  *TCPConfig       `json:"tcpSettings"`
+	WSConfig   *WebSocketConfig `json:"wsSettings"`
+	HTTPConfig *HTTPConfig      `json:"httpSettings"`
 }
 
 // Build implements Buildable.
@@ -47,17 +46,6 @@ func (c *TransportConfig) Build() (*transport.Config, error) {
 		config.TransportSettings = append(config.TransportSettings, &internet.TransportConfig{
 			ProtocolName: "http",
 			Settings:     serial.ToTypedMessage(ts),
-		})
-	}
-
-	if c.DSConfig != nil {
-		ds, err := c.DSConfig.Build()
-		if err != nil {
-			return nil, newError("Failed to build DomainSocket config.").Base(err)
-		}
-		config.TransportSettings = append(config.TransportSettings, &internet.TransportConfig{
-			ProtocolName: "domainsocket",
-			Settings:     serial.ToTypedMessage(ds),
 		})
 	}
 

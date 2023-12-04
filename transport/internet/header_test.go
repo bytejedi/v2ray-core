@@ -8,8 +8,6 @@ import (
 	"github.com/v2fly/v2ray-core/v5/transport/internet/headers/noop"
 	"github.com/v2fly/v2ray-core/v5/transport/internet/headers/srtp"
 	"github.com/v2fly/v2ray-core/v5/transport/internet/headers/utp"
-	"github.com/v2fly/v2ray-core/v5/transport/internet/headers/wechat"
-	"github.com/v2fly/v2ray-core/v5/transport/internet/headers/wireguard"
 )
 
 func TestAllHeadersLoadable(t *testing.T) {
@@ -27,14 +25,6 @@ func TestAllHeadersLoadable(t *testing.T) {
 		},
 		{
 			Input: new(utp.Config),
-			Size:  4,
-		},
-		{
-			Input: new(wechat.VideoConfig),
-			Size:  13,
-		},
-		{
-			Input: new(wireguard.WireguardConfig),
 			Size:  4,
 		},
 	}

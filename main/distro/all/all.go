@@ -38,12 +38,8 @@ import (
 	// Inbound and outbound proxies.
 	_ "github.com/v2fly/v2ray-core/v5/proxy/blackhole"
 	_ "github.com/v2fly/v2ray-core/v5/proxy/dns"
-	_ "github.com/v2fly/v2ray-core/v5/proxy/dokodemo"
 	_ "github.com/v2fly/v2ray-core/v5/proxy/freedom"
 	_ "github.com/v2fly/v2ray-core/v5/proxy/http"
-	_ "github.com/v2fly/v2ray-core/v5/proxy/shadowsocks"
-	_ "github.com/v2fly/v2ray-core/v5/proxy/socks"
-	_ "github.com/v2fly/v2ray-core/v5/proxy/trojan"
 	_ "github.com/v2fly/v2ray-core/v5/proxy/vless/inbound"
 	_ "github.com/v2fly/v2ray-core/v5/proxy/vless/outbound"
 	_ "github.com/v2fly/v2ray-core/v5/proxy/vmess/inbound"
@@ -54,7 +50,6 @@ import (
 	_ "github.com/v2fly/v2ray-core/v5/proxy/vlite/outbound"
 
 	// Transports
-	_ "github.com/v2fly/v2ray-core/v5/transport/internet/domainsocket"
 	_ "github.com/v2fly/v2ray-core/v5/transport/internet/http"
 	_ "github.com/v2fly/v2ray-core/v5/transport/internet/tcp"
 	_ "github.com/v2fly/v2ray-core/v5/transport/internet/tls"
@@ -68,8 +63,6 @@ import (
 	_ "github.com/v2fly/v2ray-core/v5/transport/internet/headers/srtp"
 	_ "github.com/v2fly/v2ray-core/v5/transport/internet/headers/tls"
 	_ "github.com/v2fly/v2ray-core/v5/transport/internet/headers/utp"
-	_ "github.com/v2fly/v2ray-core/v5/transport/internet/headers/wechat"
-	_ "github.com/v2fly/v2ray-core/v5/transport/internet/headers/wireguard"
 
 	// Geo loaders
 	_ "github.com/v2fly/v2ray-core/v5/infra/conf/geodata/memconservative"
@@ -93,7 +86,4 @@ import (
 
 	// Simplified config
 	_ "github.com/v2fly/v2ray-core/v5/proxy/http/simplified"
-	_ "github.com/v2fly/v2ray-core/v5/proxy/shadowsocks/simplified"
-	_ "github.com/v2fly/v2ray-core/v5/proxy/socks/simplified"
-	_ "github.com/v2fly/v2ray-core/v5/proxy/trojan/simplified"
 )

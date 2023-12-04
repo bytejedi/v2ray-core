@@ -23,26 +23,19 @@ import (
 
 var (
 	inboundConfigLoader = loader.NewJSONConfigLoader(loader.ConfigCreatorCache{
-		"dokodemo-door": func() interface{} { return new(DokodemoConfig) },
-		"http":          func() interface{} { return new(HTTPServerConfig) },
-		"shadowsocks":   func() interface{} { return new(ShadowsocksServerConfig) },
-		"socks":         func() interface{} { return new(SocksServerConfig) },
-		"vless":         func() interface{} { return new(VLessInboundConfig) },
-		"vmess":         func() interface{} { return new(VMessInboundConfig) },
-		"trojan":        func() interface{} { return new(TrojanServerConfig) },
+		"http":  func() interface{} { return new(HTTPServerConfig) },
+		"vless": func() interface{} { return new(VLessInboundConfig) },
+		"vmess": func() interface{} { return new(VMessInboundConfig) },
 	}, "protocol", "settings")
 
 	outboundConfigLoader = loader.NewJSONConfigLoader(loader.ConfigCreatorCache{
-		"blackhole":   func() interface{} { return new(BlackholeConfig) },
-		"freedom":     func() interface{} { return new(FreedomConfig) },
-		"http":        func() interface{} { return new(HTTPClientConfig) },
-		"shadowsocks": func() interface{} { return new(ShadowsocksClientConfig) },
-		"socks":       func() interface{} { return new(SocksClientConfig) },
-		"vless":       func() interface{} { return new(VLessOutboundConfig) },
-		"vmess":       func() interface{} { return new(VMessOutboundConfig) },
-		"trojan":      func() interface{} { return new(TrojanClientConfig) },
-		"dns":         func() interface{} { return new(DNSOutboundConfig) },
-		"loopback":    func() interface{} { return new(LoopbackConfig) },
+		"blackhole": func() interface{} { return new(BlackholeConfig) },
+		"freedom":   func() interface{} { return new(FreedomConfig) },
+		"http":      func() interface{} { return new(HTTPClientConfig) },
+		"vless":     func() interface{} { return new(VLessOutboundConfig) },
+		"vmess":     func() interface{} { return new(VMessOutboundConfig) },
+		"dns":       func() interface{} { return new(DNSOutboundConfig) },
+		"loopback":  func() interface{} { return new(LoopbackConfig) },
 	}, "protocol", "settings")
 )
 
@@ -185,9 +178,6 @@ func (c *InboundDetourConfig) Build() (*core.InboundHandlerConfig, error) {
 	rawConfig, err := inboundConfigLoader.LoadWithID(settings, c.Protocol)
 	if err != nil {
 		return nil, newError("failed to load inbound detour config.").Base(err)
-	}
-	if dokodemoConfig, ok := rawConfig.(*DokodemoConfig); ok {
-		receiverSettings.ReceiveOriginalDestination = dokodemoConfig.Redirect
 	}
 	ts, err := rawConfig.(cfgcommon.Buildable).Build()
 	if err != nil {
@@ -353,9 +343,6 @@ func applyTransportConfig(s *StreamConfig, t *TransportConfig) {
 	}
 	if s.HTTPSettings == nil {
 		s.HTTPSettings = t.HTTPConfig
-	}
-	if s.DSSettings == nil {
-		s.DSSettings = t.DSConfig
 	}
 }
 
